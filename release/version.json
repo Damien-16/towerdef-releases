@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "sha": "6800deb18873e7228e7df8e8bcf72e694b99e2c1",
+  "shortSha": "6800deb",
+  "builtAt": "2026-11-23T14:31:46.146Z",
+  "changelog": [
+    {
+      "sha": "6800deb18873e7228e7df8e8bcf72e694b99e2c1",
+      "shortSha": "6800deb",
+      "date": "2026-11-23",
+      "message": "feat: ajout du mode 3D Three.js (caméra 3e personne et style semi-pixel)",
+      "isNew": false
+    },
+    {
+      "sha": "ede056589ad3b09c7a3c9ad563a8b8b738377772",
+      "shortSha": "ede0565",
+      "date": "2026-11-23",
+      "message": "chore: filtrage des échanges utiles et sync ai-discussions avant commit",
+      "isNew": false
+    },
+    {
+      "sha": "6672638571f7406db0863d637805f2d383d76b66",
+      "shortSha": "6672638",
+      "date": "2026-11-23",
+      "message": "docs: rédaction complète du README",
+      "isNew": false
+    },
+    {
+      "sha": "07f72047432f09833666965fe18bcb2e65e1f9b2",
+      "shortSha": "07f7204",
+      "date": "2026-11-23",
+      "message": "fix : suppression du node module dans le gitignore",
+      "isNew": false
+    },
+    {
+      "sha": "119b6a93ef24c9d16a99e1ffb398c452e8974b48",
+      "shortSha": "119b6a9",
+      "date": "2026-11-22",
+      "message": "Ajout dossier ai-discussions et hooks de sauvegarde/contexte IA automatique",
+      "isNew": false
+    },
+    {
+      "sha": "3d45c5984e9f205c2701dad00a140ba7ebdcde21",
+      "shortSha": "3d45c59",
+      "date": "2026-11-22",
+      "message": "Ajout multijoueur co-op LAN (2-4 joueurs), launcher MAJ auto et exécutable Windows autonome",
+      "isNew": false
+    },
+    {
+      "sha": "d79cef73ca71a355d3d1f8288fe3dd45ca531ac8",
+      "shortSha": "d79cef7",
+      "date": "2026-11-22",
+      "message": "feat : ajout du multijoueur",
+      "isNew": false
+    },
+    {
+      "sha": "ce45fa15f76aba8dbf13b15dd8c9f7b1154a5fcc",
+      "shortSha": "ce45fa1",
+      "date": "2026-11-21",
+      "message": "feat: refonte HD vectorielle complète (polices Cinzel/Inter, UI moderne et 50 sprites lisses)",
+      "isNew": false
+    },
+    {
+      "sha": "4d56504dce88987e764bd022d6bb12d4698b1b6c",
+      "shortSha": "4d56504",
+      "date": "2026-11-21",
+      "message": "feat: système d'étoiles 1-3★ en Aventure et événements dynamiques de vague",
+      "isNew": false
+    },
+    {
+      "sha": "8e6286f4357a1ad7530e8b21cdc602110dda54ac",
+      "shortSha": "8e6286f",
+      "date": "2026-11-21",
+      "message": "feat: ciblage tourelles, spécialisations Niv.5 et 2 nouveaux héros déblocables (Rôdeur & Invocateur)",
+      "isNew": false
+    },
+    {
+      "sha": "71ff6b71f8d8cf3e84d89905e034b121bce5204c",
+      "shortSha": "71ff6b7",
+      "date": "2026-11-20",
+      "message": "feat: ajout du Mode Aventure (100 niveaux, 10 chapitres, déblocages progressifs et Coffre à risque)",
+      "isNew": false
+    },
+    {
+      "sha": "eea483bde36dba0aefbd62d2f0c4db64e5221380",
+      "shortSha": "eea483b",
+      "date": "2026-11-20",
+      "message": "feat: aimantation auto des ressources, héros traverse les bâtiments et Mur Anti-Aérien",
+      "isNew": false
+    }
+  ]
+}
