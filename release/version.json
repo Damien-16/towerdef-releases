@@ -1,9 +1,23 @@
 {
   "version": "1.0.0",
-  "sha": "6800deb18873e7228e7df8e8bcf72e694b99e2c1",
-  "shortSha": "6800deb",
-  "builtAt": "2026-11-23T14:31:46.146Z",
+  "sha": "25eeb487f94eadf297df8447b6b166e72100a6e6",
+  "shortSha": "25eeb48",
+  "builtAt": "2026-11-24T18:47:18.002Z",
   "changelog": [
+    {
+      "sha": "25eeb487f94eadf297df8447b6b166e72100a6e6",
+      "shortSha": "25eeb48",
+      "date": "2026-11-23",
+      "message": "Refonte épurée du launcher (sans emoji) et recompilation de BastionDEther.exe",
+      "isNew": false
+    },
+    {
+      "sha": "ebc35b789ddb684837fcc9583ff885b1d929415b",
+      "shortSha": "ebc35b7",
+      "date": "2026-11-23",
+      "message": "feat: dépôt public séparé pour les releases auto-updater (towerdef-releases)",
+      "isNew": false
+    },
     {
       "sha": "6800deb18873e7228e7df8e8bcf72e694b99e2c1",
       "shortSha": "6800deb",
@@ -72,20 +86,6 @@
       "shortSha": "8e6286f",
       "date": "2026-11-21",
       "message": "feat: ciblage tourelles, spécialisations Niv.5 et 2 nouveaux héros déblocables (Rôdeur & Invocateur)",
-      "isNew": false
-    },
-    {
-      "sha": "71ff6b71f8d8cf3e84d89905e034b121bce5204c",
-      "shortSha": "71ff6b7",
-      "date": "2026-11-20",
-      "message": "feat: ajout du Mode Aventure (100 niveaux, 10 chapitres, déblocages progressifs et Coffre à risque)",
-      "isNew": false
-    },
-    {
-      "sha": "eea483bde36dba0aefbd62d2f0c4db64e5221380",
-      "shortSha": "eea483b",
-      "date": "2026-11-20",
-      "message": "feat: aimantation auto des ressources, héros traverse les bâtiments et Mur Anti-Aérien",
       "isNew": false
     }
   ]
