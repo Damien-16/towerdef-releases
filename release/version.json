@@ -1,9 +1,23 @@
 {
   "version": "1.0.0",
-  "sha": "009f630b1b8bc26a562cab8e98794ec89e9fe5bc",
-  "shortSha": "009f630",
-  "builtAt": "2026-11-25T09:31:57.158Z",
+  "sha": "ce5eb399e8dcc2e85640fcfbcf99bf5375cceba8",
+  "shortSha": "ce5eb39",
+  "builtAt": "2026-11-25T09:53:15.127Z",
   "changelog": [
+    {
+      "sha": "ce5eb399e8dcc2e85640fcfbcf99bf5375cceba8",
+      "shortSha": "ce5eb39",
+      "date": "2026-11-25",
+      "message": "fix: découpage (chunking) WebRTC illimité et reconnexion auto (corrige le crash vague 2 client)",
+      "isNew": false
+    },
+    {
+      "sha": "10a65b6a4972833b2f95545672d69d28bbc5d733",
+      "shortSha": "10a65b6",
+      "date": "2026-11-25",
+      "message": "chore: mise à jour des artefacts de release (Web, BastionDEther.exe, game.zip)",
+      "isNew": false
+    },
     {
       "sha": "009f630b1b8bc26a562cab8e98794ec89e9fe5bc",
       "shortSha": "009f630",
@@ -73,21 +87,7 @@
       "date": "2026-11-23",
       "message": "docs: rédaction complète du README",
       "isNew": false
-    },
-    {
-      "sha": "07f72047432f09833666965fe18bcb2e65e1f9b2",
-      "shortSha": "07f7204",
-      "date": "2026-11-23",
-      "message": "fix : suppression du node module dans le gitignore",
-      "isNew": false
-    },
-    {
-      "sha": "119b6a93ef24c9d16a99e1ffb398c452e8974b48",
-      "shortSha": "119b6a9",
-      "date": "2026-11-22",
-      "message": "Ajout dossier ai-discussions et hooks de sauvegarde/contexte IA automatique",
-      "isNew": false
     }
   ],
-  "gameHash": "798103e9fbaa20327db320898819775c62e87dfd7e4612a17b94a5174367506a"
+  "gameHash": "72d00e667e50d4fdf6e8f05b06af1e07afb48934524846efaeaffc9d9c5c1c43"
 }

@@ -4,7 +4,7 @@ Dépôt public de distribution pour **Bastion d'Éther** (version Web instantan�
 
 ## 🌐 Jouer directement dans le navigateur (Recommandé)
 
-👉 **[JOUER À BASTION D'ÉTHER EN LIGNE (v1.0.0 · 009f630)](https://damien-16.github.io/towerdef-releases/)**
+👉 **[JOUER À BASTION D'ÉTHER EN LIGNE (v1.0.0 · ce5eb39)](https://damien-16.github.io/towerdef-releases/)**
 
 - **Zéro téléchargement, zéro alerte antivirus** : fonctionne immédiatement dans Chrome, Edge, Firefox ou Safari.
 - **Toujours à jour** : Mode Aventure (100 niveaux), Survie Infinie, **Multijoueur Co-op En Ligne (WebRTC, 2–4 joueurs)**, Mode 3D / HD / Pixel-Art, Arbres Permanents et sauvegardes automatiques dans votre navigateur.
@@ -13,7 +13,7 @@ Dépôt public de distribution pour **Bastion d'Éther** (version Web instantan�
 
 ## 💻 Téléchargement Windows (Co-op LAN Wi-Fi & Hors-ligne)
 
-👉 **[Télécharger BastionDEther-Windows.zip (v1.0.0 · 009f630)](https://github.com/Damien-16/towerdef-releases/raw/main/release/BastionDEther-Windows.zip)**  
+👉 **[Télécharger BastionDEther-Windows.zip (v1.0.0 · ce5eb39)](https://github.com/Damien-16/towerdef-releases/raw/main/release/BastionDEther-Windows.zip)**  
 *(Lien direct .exe : [BastionDEther.exe](https://github.com/Damien-16/towerdef-releases/raw/main/release/BastionDEther.exe))*
 
 - **Aucun prérequis** : pas besoin d'installer Node.js.
@@ -27,11 +27,13 @@ Dépôt public de distribution pour **Bastion d'Éther** (version Web instantan�
 ## Dernière version publiée
 
 - **Version** : `v1.0.0`
-- **Build** : `009f630`
+- **Build** : `ce5eb39`
 - **Date de compilation** : `2026-11-25`
 
 ### Notes de mise à jour récentes
 
+- `ce5eb39` (2026-11-25) — fix: découpage (chunking) WebRTC illimité et reconnexion auto (corrige le crash vague 2 client)
+- `10a65b6` (2026-11-25) — chore: mise à jour des artefacts de release (Web, BastionDEther.exe, game.zip)
 - `009f630` (2026-11-25) — feat: ajout du multijoueur Co-op En Ligne WebRTC (P2P + lien d'invitation)
 - `477f6bb` (2026-11-25) — fix: publication Web GitHub Pages, nettoyage antivirus de l'exe et exclusion watch Vite
 - `f3f2322` (2026-11-25) — fix: correction des 71 bugs de l'audit complet (gameplay, 3D, UI, LAN, launcher et exe)
@@ -40,5 +42,3 @@ Dépôt public de distribution pour **Bastion d'Éther** (version Web instantan�
 - `25eeb48` (2026-11-23) — Refonte épurée du launcher (sans emoji) et recompilation de BastionDEther.exe
 - `ebc35b7` (2026-11-23) — feat: dépôt public séparé pour les releases auto-updater (towerdef-releases)
 - `6800deb` (2026-11-23) — feat: ajout du mode 3D Three.js (caméra 3e personne et style semi-pixel)
-- `ede0565` (2026-11-23) — chore: filtrage des échanges utiles et sync ai-discussions avant commit
-- `6672638` (2026-11-23) — docs: rédaction complète du README
