@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>BASTION D'ÉTHER — Survie &amp; Défense de Forteresse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="./assets/index-p8nkcOOh.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CCCIbeeA.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="cv"></canvas>
+    <canvas id="cv3d" hidden></canvas>
+    <canvas id="cv3d-hud" hidden></canvas>
+  </div>
+
+  <div class="fx" id="fx-vign"></div>
+  <div class="fx" id="fx-hurt"></div>
+  <div class="fx" id="fx-crt"></div>
+
+  <!-- In-Game HUD -->
+  <div id="hud" hidden>
+    <!-- Top Left: Citadel, Hero & Resources -->
+    <div class="hud-tl">
+      <div class="bar-box cit">
+        <div class="bar-head">
+          <span id="hud-cit-lvl">CITADELLE NIV.1</span>
+          <b id="hud-cit-hp">800 / 800</b>
+        </div>
+        <div class="bar-track"><i id="hud-cit-fill"></i></div>
+      </div>
+
+      <div class="bar-box hero">
+        <div class="bar-head">
+          <span id="hud-hero-lbl">GARDIEN</span>
+          <b id="hud-hero-hp">150 / 150</b>
+        </div>
+        <div class="bar-track"><i id="hud-hero-fill"></i></div>
+      </div>
+
+      <div class="res-row">
+        <div class="res-pill stone" title="Pierre (Murs, tourelles de base, réparations)">
+          <span>🪨</span><b id="hud-stone">0</b><small id="hud-stone-rate"></small>
+        </div>
+        <div class="res-pill crystal" title="Cristaux d'Éther (Tours magiques, technologies)">
+          <span>💎</span><b id="hud-crystal">0</b><small id="hud-crystal-rate"></small>
+        </div>
+      </div>
+
+      <div id="coop-hud" hidden></div>
+    </div>
+
+    <!-- Top Center: Wave Status & Boss Bar -->
+    <div class="hud-tc">
+      <div class="wave-box">
+        <div class="wave-top">
+          <span class="diff-badge" id="hud-diff">NORMAL</span>
+          <div class="wave-title" id="hud-wave-title">VAGUE 1 — PRÉPARATION</div>
+        </div>
+        <div class="wave-sub" id="hud-wave-sub">Flancs : NORD</div>
+        <div class="wave-event" id="hud-wave-event" hidden></div>
+        <div class="wave-actions">
+          <button class="wave-go" id="btn-start-wave" type="button">LANCER VAGUE [G]</button>
+          <button class="wave-auto" id="btn-auto-wave" type="button" title="Enchaîne automatiquement les vagues (V)">AUTO : OFF</button>
+        </div>
+      </div>
+      <div id="bossbar" hidden>
+        <em id="boss-name">BOSS</em>
+        <div><i id="boss-fill"></i></div>
+      </div>
+    </div>
+
+    <!-- Top Right: Upgrades, Controls & Minimap -->
+    <div class="hud-tr">
+      <div class="tr-actions">
+        <button class="btn-hud upg" id="btn-upgrades" type="button">AMÉLIORER [U]</button>
+        <button class="btn-hud" id="btn-pause" type="button" title="Menu &amp; Options (Échap)">☰</button>
+      </div>
+      <div class="tr-controls">
+        <div class="spd-grp">
+          <button class="btn-mini on" id="btn-spd-1" type="button" title="Vitesse normale">×1</button>
+          <button class="btn-mini" id="btn-spd-2" type="button" title="Vitesse rapide ×2">×2</button>
+          <button class="btn-mini" id="btn-spd-3" type="button" title="Vitesse très rapide ×3">×3</button>
+        </div>
+        <button class="btn-mini" id="btn-tact-pause" type="button" title="Pause Tactique Constructible (P / T)">❚❚ [P]</button>
+        <button class="btn-mini on" id="btn-paths" type="button" title="Prévisualisation des chemins ennemis (H)">CHEMINS: AUTO</button>
+        <button class="btn-mini on" id="btn-hud-theme" type="button" title="Basculer entre Textures HD, Mode 3D et Pixel-Art 16-bit">THÈME: HD</button>
+        <button class="btn-mini on" id="btn-hud-cam" type="button" hidden title="Changer la vue caméra 3D (K) · Clic droit glisser : pivoter · Molette : zoom">CAM: 3E PERS.</button>
+      </div>
+      <div id="cam3d-hint" hidden>Clic droit + glisser : Pivoter · Molette : Zoom · [K] Vue</div>
+      <canvas id="minimap" width="126" height="90"></canvas>
+    </div>
+
+    <!-- Tactical Pause Banner (Non-blocking) -->
+    <div id="tact-pause-banner" hidden>
+      PAUSE TACTIQUE — CONSTRUCTION &amp; CAMÉRA (ZQSD) ACTIVES · [P] REPRENDRE
+    </div>
+
+    <!-- Respawn Countdown Overlay (Non-blocking) -->
+    <div id="respawn-banner" hidden>
+      <strong>GARDIEN TOMBÉ</strong>
+      <span>Réapparition à la Citadelle dans <b id="respawn-sec">8.0</b> s</span>
+    </div>
+
+    <!-- Banner & Controls Hint -->
+    <div id="banner">
+      <h2 id="banner-h"></h2>
+      <p id="banner-p"></p>
+    </div>
+    <div id="hint"></div>
+
+    <!-- First-Time Interactive Tutorial Card (Non-blocking) -->
+    <aside id="tutorial-card" hidden>
+      <div class="tuto-head">
+        <span class="tuto-step" id="tuto-step">TUTORIEL · 1 / 5</span>
+        <button class="tuto-skip" id="btn-tuto-skip" type="button" title="Fermer et ne plus afficher">PASSER ✕</button>
+      </div>
+      <div class="tuto-bar"><i id="tuto-fill"></i></div>
+      <h3 id="tuto-title">Bienvenue !</h3>
+      <p id="tuto-body"></p>
+      <div class="tuto-foot">
+        <span class="tuto-goal" id="tuto-goal"></span>
+        <button class="btn primary tuto-next" id="btn-tuto-next" type="button">SUIVANT ►</button>
+      </div>
+    </aside>
+
+    <!-- Bottom Center: Building Inspector + Build Bar -->
+    <div class="hud-bc">
+      <div id="inspector" hidden>
+        <div class="insp-head">
+          <div>
+            <b id="insp-name">Mur de Pierre</b>
+            <span id="insp-lvl">Niv.1/3</span>
+          </div>
+          <span id="insp-hp">220 / 220 PV</span>
+          <button id="insp-close" type="button" title="Fermer">✕</button>
+        </div>
+        <p class="insp-desc" id="insp-desc"></p>
+        <div class="insp-prio" id="insp-prio" hidden>
+          <span class="insp-prio-lbl">CIBLAGE :</span>
+          <button type="button" data-prio="auto">AUTO</button>
+          <button type="button" data-prio="nearest">PROCHE</button>
+          <button type="button" data-prio="tough">FORT / BOSS</button>
+          <button type="button" data-prio="citadel">CITADELLE</button>
+          <button type="button" data-prio="flying">VOLANTS</button>
+        </div>
+        <div class="insp-spec" id="insp-spec" hidden></div>
+        <div class="insp-actions">
+          <button class="insp-btn up" id="insp-up" type="button">AMÉLIORER</button>
+          <button class="insp-btn rep" id="insp-rep" type="button">RÉPARER</button>
+          <button class="insp-btn del" id="insp-sell" type="button">DÉMOLIR</button>
+        </div>
+      </div>
+
+      <div id="batch-panel" hidden>
+        <div class="insp-head">
+          <b id="batch-title">LOT : 0 BÂTIMENT</b>
+          <button id="batch-close" type="button" title="Fermer">✕</button>
+        </div>
+        <div class="batch-filters" id="batch-filters"></div>
+        <div class="insp-actions">
+          <button class="insp-btn up" id="batch-up-btn" type="button">AMÉLIORER +1</button>
+        </div>
+      </div>
+
+      <div id="blueprint-bar" hidden>
+        <span id="bp-info">PLAN : 0 BÂT.</span>
+        <button class="insp-btn" id="bp-rot" type="button" title="Pivoter de 90° (N ou Molette)">↻ ROT. [N]</button>
+        <button class="insp-btn" id="bp-recopy" type="button">COPIER [C]</button>
+        <button class="insp-btn del" id="bp-close" type="button" title="Annuler">✕</button>
+      </div>
+
+      <div class="build-head">
+        <div class="seg build-tabs" id="build-tabs">
+          <button class="on" data-btab="all" type="button">TOUT</button>
+          <button data-btab="defense" type="button">MURS &amp; PIÈGES</button>
+          <button data-btab="turret" type="button">TOURELLES</button>
+          <button data-btab="eco" type="button">ÉCO &amp; SOUTIEN</button>
+        </div>
+        <div class="build-tools">
+          <button class="btn-tool batch" id="btn-batch" type="button" title="Amélioration en lot par glisser-déposer (B)">⬆ LOT [B]</button>
+          <button class="btn-tool copy" id="btn-copy" type="button" title="Copier / Coller une zone de bâtiments (C)">⧉ COPIER [C]</button>
+          <button class="btn-tool del" id="btn-demolish" type="button" title="Démolition multiple par glisser-déposer (X)">✕ DÉMOLIR [X]</button>
+          <button class="btn-tool rep" id="btn-repair-all" type="button" title="Réparer tous les bâtiments endommagés">⚒ RÉPARER</button>
+        </div>
+      </div>
+      <div id="buildbar"></div>
+    </div>
+
+    <!-- Bottom Right: Hero Manual Abilities -->
+    <div class="abil">
+      <button class="ab" id="ab-dash" type="button" title="Ruée (Espace)">
+        <span class="ab-sym">»</span>
+        <kbd>ESP</kbd>
+      </button>
+      <button class="ab" id="ab-rally" type="button" title="Cri de Bastion (E) : +50% cadence tours">
+        <span class="ab-sym">⚔</span>
+        <kbd>E</kbd>
+      </button>
+      <button class="ab" id="ab-ult" type="button" title="Jugement d'Éther (R)">
+        <span class="ab-sym">⚡</span>
+        <kbd>R</kbd>
+      </button>
+      <button class="ab ready" id="ab-repair" type="button" title="Réparer au contact (maintenir F)">
+        <span class="ab-sym">⚒</span>
+        <kbd>F</kbd>
+      </button>
+    </div>
+  </div>
+
+  <div id="stick" hidden><div id="knob"></div></div>
+  <div id="toasts"></div>
+
+  <!-- 1. TITLE SCREEN -->
+  <section class="screen on" id="s-menu">
+    <div class="menu-wrap">
+      <div class="kicker">TOWER DEFENSE · FORTERESSE SUR GRILLE · SURVIE</div>
+      <h1>BASTION D'ÉTHER</h1>
+      <p class="tag">
+        Érige une forteresse autour de ta Citadelle, exploite les filons de Pierre et d'Éther, et combats aux côtés de tes tourelles face aux armées de siège.
+      </p>
+      <div class="class-wrap">
+        <div class="diff-label">CLASSE DE GARDIEN</div>
+        <div class="class-cards" id="class-selector"></div>
+        <div class="diff-desc" id="class-desc"></div>
+        <div class="class-unlock-row" id="class-unlock-row" hidden>
+          <span id="class-unlock-info"></span>
+          <button class="btn meta-btn" id="btn-unlock-class" type="button">✨ DÉBLOQUER</button>
+        </div>
+      </div>
+      <div class="diff-wrap">
+        <div class="diff-label">DIFFICULTÉ</div>
+        <div class="seg diff-tabs" id="diff-selector"></div>
+        <div class="diff-desc" id="diff-desc"></div>
+      </div>
+      <div class="go">
+        <button class="btn primary" id="btn-continue" type="button" hidden>REPRENDRE LA PARTIE</button>
+        <button class="btn adv-btn" id="btn-menu-adv" data-nav="s-adventure" type="button">🗺️ MODE AVENTURE (<span id="menu-adv-prog">1/100</span>)</button>
+        <button class="btn primary" id="btn-play" type="button">⚔️ MODE SURVIE INFINIE</button>
+        <button class="btn mp-btn" id="btn-menu-multi" data-nav="s-multi" type="button">🌐 MULTIJOUEUR LAN (2–4 J.)</button>
+        <button class="btn meta-btn" id="btn-menu-meta" data-nav="s-meta" type="button">✨ ARBRES PERMANENTS (<span id="menu-essence">0</span> ✨)</button>
+        <button class="btn ghost" id="btn-menu-theme" type="button">THÈME : TEXTURES HD</button>
+      </div>
+      <nav class="links">
+        <button class="link" data-nav="s-buildings" type="button">INDEX BÂTIMENTS</button>
+        <button class="link" data-nav="s-bestiary" type="button">BESTIAIRE</button>
+        <button class="link" data-nav="s-archives" type="button">ARCHIVES &amp; SUCCÈS</button>
+        <button class="link" data-nav="s-settings" type="button">OPTIONS &amp; COMMANDES</button>
+      </nav>
+      <div class="rec" id="menu-records"></div>
+    </div>
+  </section>
+
+  <!-- 2. UPGRADES MODAL (5 CATEGORIES) -->
+  <section class="screen veil" id="s-upgrades">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <h1 class="t">AMÉLIORATIONS DU BASTION</h1>
+          <p class="lead">Développe ta Citadelle (Niv.1 → 5), tes défenses, ta production et l'équipement du Gardien.</p>
+        </div>
+        <div class="upg-head-right">
+          <div class="purse">🪨 <b id="upg-stone">0</b> · 💎 <b id="upg-crystal">0</b> · <span id="upg-cit">Citadelle Niv.1</span></div>
+          <button class="btn primary" id="btn-upg-close" type="button">RETOUR [U]</button>
+        </div>
+      </div>
+
+      <div class="seg upg-tabs" id="upg-tabs">
+        <button class="on" data-utab="base" type="button">BASE</button>
+        <button data-utab="build" type="button">CONSTRUCTION</button>
+        <button data-utab="prod" type="button">PRODUCTION</button>
+        <button data-utab="combat" type="button">COMBAT</button>
+        <button data-utab="surv" type="button">SURVIE</button>
+      </div>
+
+      <div class="upg-grid" id="upg-grid"></div>
+    </div>
+  </section>
+
+  <!-- 3. PAUSE MODAL -->
+  <section class="screen dim" id="s-pause">
+    <div class="col narrow">
+      <h1 class="t" id="pause-title">JEU EN PAUSE</h1>
+      <p class="lead" id="pause-info"></p>
+      <div class="actions-col">
+        <button class="btn primary" id="btn-resume" type="button">REPRENDRE</button>
+        <button class="btn ghost" id="btn-pause-upg" type="button">AMÉLIORATIONS [U]</button>
+        <button class="btn ghost" id="btn-save-quit" type="button">SAUVEGARDER &amp; QUITTER</button>
+        <button class="btn ghost danger" id="btn-abandon" type="button">ABANDONNER LA PARTIE</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BATTLE OVER MODAL -->
+  <section class="screen veil" id="s-over">
+    <div class="col narrow">
+      <h1 class="t">CITADELLE TOMBÉE</h1>
+      <p class="lead" id="over-sub">Les forces de siège ont submergé ta forteresse.</p>
+      <dl class="facts" id="over-facts"></dl>
+      <div class="actions-row">
+        <button class="btn primary" id="btn-retry" type="button">NOUVELLE BATAILLE</button>
+        <button class="btn adv-btn" id="btn-over-adv" type="button" hidden>🗺️ RETOUR AVENTURE</button>
+        <button class="btn meta-btn" id="btn-over-meta" data-nav="s-meta" type="button">✨ ARBRES PERMANENTS</button>
+        <button class="btn ghost" data-nav="s-menu" type="button">MENU PRINCIPAL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4A. ADVENTURE VICTORY MODAL -->
+  <section class="screen veil" id="s-victory">
+    <div class="col narrow">
+      <h1 class="t" style="color:#5ef28c">VICTOIRE !</h1>
+      <div class="vic-stars" id="vic-stars"></div>
+      <p class="lead" id="vic-sub">Niveau terminé avec succès !</p>
+      <dl class="facts" id="vic-facts"></dl>
+      <div class="adv-unlocks-box" id="vic-unlocks" hidden></div>
+      <div class="actions-row">
+        <button class="btn adv-btn" id="btn-vic-next" type="button">NIVEAU SUIVANT ►</button>
+        <button class="btn ghost" id="btn-vic-map" type="button">🗺️ CARTE AVENTURE</button>
+        <button class="btn ghost" data-nav="s-menu" type="button">MENU PRINCIPAL</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4A2. ADVENTURE CAMPAIGN MAP & LOADOUT (100 LEVELS) -->
+  <section class="screen veil" id="s-adventure">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <div class="backrow">
+            <button class="btn ghost" data-nav="s-menu" type="button">◄ MENU PRINCIPAL</button>
+            <button class="btn ghost" data-nav="s-buildings" type="button">🏛 INDEX BÂTIMENTS</button>
+          </div>
+          <h1 class="t">MODE AVENTURE — 100 NIVEAUX</h1>
+          <p class="lead">Débloque progressivement toutes les mécaniques du jeu, accumule des ressources dans ton Coffre et choisis combien risquer à chaque niveau !</p>
+        </div>
+        <div class="upg-head-right">
+          <div class="purse adv-purse">🏦 COFFRE : 🪨 <b id="adv-vault-stone">0</b> · 💎 <b id="adv-vault-crystal">0</b></div>
+          <div class="adv-progress-pill" id="adv-progress">Progression : 0 / 100</div>
+        </div>
+      </div>
+
+      <div class="seg adv-ch-tabs" id="adv-ch-tabs"></div>
+      <div class="adv-ch-banner" id="adv-ch-banner"></div>
+
+      <div class="adv-layout">
+        <div class="adv-levels-grid" id="adv-levels-grid"></div>
+
+        <aside class="adv-brief" id="adv-brief">
+          <div class="adv-brief-head">
+            <span class="adv-brief-tag" id="adv-brief-tag">NIVEAU 1</span>
+            <span class="adv-brief-status" id="adv-brief-status"></span>
+          </div>
+          <h2 id="adv-brief-title">Premiers Remparts</h2>
+          <p class="adv-brief-desc" id="adv-brief-desc"></p>
+
+          <div class="adv-brief-stats" id="adv-brief-stats"></div>
+          <div class="adv-unlocks-box" id="adv-brief-unlocks"></div>
+
+          <div class="adv-loadout">
+            <h3>🎒 RESSOURCES À EMPORTER DU COFFRE</h3>
+            <div class="adv-slider-row">
+              <div class="adv-slider-head">
+                <span>🪨 Pierre du Coffre : <b id="adv-bring-stone-val">0</b> / <span id="adv-bring-stone-max">0</span></span>
+                <div class="adv-pct-btns" data-res="stone">
+                  <button type="button" data-pct="0">0%</button>
+                  <button type="button" data-pct="25">25%</button>
+                  <button type="button" data-pct="50">50%</button>
+                  <button type="button" data-pct="100">100%</button>
+                </div>
+              </div>
+              <input id="adv-bring-stone" type="range" min="0" max="0" value="0" />
+            </div>
+
+            <div class="adv-slider-row">
+              <div class="adv-slider-head">
+                <span>💎 Cristaux du Coffre : <b id="adv-bring-crystal-val">0</b> / <span id="adv-bring-crystal-max">0</span></span>
+                <div class="adv-pct-btns" data-res="crystal">
+                  <button type="button" data-pct="0">0%</button>
+                  <button type="button" data-pct="25">25%</button>
+                  <button type="button" data-pct="50">50%</button>
+                  <button type="button" data-pct="100">100%</button>
+                </div>
+              </div>
+              <input id="adv-bring-crystal" type="range" min="0" max="0" value="0" />
+            </div>
+
+            <div class="adv-loadout-summary" id="adv-loadout-summary"></div>
+            <div class="adv-risk-warn">
+              ⚠️ <b>Risque :</b> En cas de victoire, tu récupères le reste + 50 % des bâtiments debout + la prime ! En cas de défaite, <b>tout ce que tu emportes du Coffre est perdu</b> (ce qui reste au Coffre est en sécurité).
+            </div>
+          </div>
+
+          <button class="btn adv-btn adv-launch" id="btn-adv-launch" type="button">▶ LANCER LE NIVEAU 1</button>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4B. PERMANENT UPGRADE TREES (META-PROGRESSION) -->
+  <section class="screen veil" id="s-meta">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <div class="backrow">
+            <button class="btn ghost" data-nav="s-menu" type="button">◄ MENU PRINCIPAL</button>
+            <button class="btn ghost" data-nav="s-buildings" type="button">🏛 INDEX BÂTIMENTS</button>
+          </div>
+          <h1 class="t">ARBRES D'AMÉLIORATION PERMANENTE</h1>
+          <p class="lead">Débloque des nœuds reliés du haut vers le bas avec tes Essences d'Éther pour devenir plus puissant à chaque partie.</p>
+        </div>
+        <div class="upg-head-right">
+          <div class="purse meta-purse">✨ <b id="meta-essence">0</b> Essences</div>
+          <button class="btn ghost" id="btn-meta-respec" type="button" title="Rembourse 100 % des Essences dépensées gratuitement">↺ RÉINITIALISER (100 %)</button>
+        </div>
+      </div>
+
+      <div class="seg meta-tabs" id="meta-tabs">
+        <button class="on" data-mtab="defense" type="button">⚔️ BASTION</button>
+        <button data-mtab="economy" type="button">⛏️ ÉCONOMIE</button>
+        <button data-mtab="hero" type="button">🛡️ HÉROS</button>
+        <button data-mtab="ether" type="button">✨ ÉTHER</button>
+      </div>
+
+      <div class="meta-tree-desc" id="meta-tree-desc"></div>
+
+      <div class="meta-tree-stage" id="meta-tree-stage">
+        <svg class="meta-tree-svg" id="meta-tree-svg" viewBox="0 0 900 560" preserveAspectRatio="none"></svg>
+        <div class="meta-tree-grid" id="meta-tree-grid"></div>
+      </div>
+
+      <div class="meta-guide">
+        <b>Comment obtenir des Essences d'Éther ✨ :</b>
+        Aucune avant la vague 5 · Boss vaincus (<b>Troll +2</b>, <b>Béhémoth +5</b>, <b>Dragon +10</b>) · Paliers toutes les 5 vagues (<b>+2</b>, <b>+4</b>, <b>+6</b>…) · Multiplicateur de difficulté (Facile ×0,5 · Normal ×1 · Difficile ×1,5 · Extrême ×2,2 · Impossible ×3,5).
+      </div>
+    </div>
+  </section>
+
+  <!-- 4C. BUILDING INDEX (CODEX) -->
+  <section class="screen veil" id="s-buildings">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <div class="backrow">
+            <button class="btn ghost" data-nav="s-menu" type="button">◄ MENU PRINCIPAL</button>
+            <button class="btn meta-btn" data-nav="s-meta" type="button">✨ ARBRES PERMANENTS</button>
+          </div>
+          <h1 class="t">INDEX DES BÂTIMENTS (<span id="bindex-count">0</span>)</h1>
+          <p class="lead">Consulte toutes les structures du jeu, leurs statistiques et celles à débloquer dans les Arbres d'Amélioration Permanente.</p>
+        </div>
+      </div>
+
+      <div class="seg bindex-tabs" id="bindex-tabs">
+        <button class="on" data-bitab="all" type="button">TOUT</button>
+        <button data-bitab="defense" type="button">MURS &amp; PIÈGES</button>
+        <button data-bitab="turret" type="button">TOURELLES</button>
+        <button data-bitab="eco" type="button">ÉCO &amp; SOUTIEN</button>
+        <button data-bitab="meta" type="button">✨ ARBRE PERM.</button>
+      </div>
+
+      <div class="bindex-grid" id="buildings-grid"></div>
+    </div>
+  </section>
+
+  <!-- 4D. LAN MULTIPLAYER CO-OP LOBBY (2-4 PLAYERS) -->
+  <section class="screen veil" id="s-multi">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <div class="backrow">
+            <button class="btn ghost" id="btn-mp-back" type="button">◄ MENU PRINCIPAL</button>
+          </div>
+          <h1 class="t">MULTIJOUEUR LAN — CO-OP (2–4 JOUEURS)</h1>
+          <p class="lead">Défendez la même Citadelle ensemble sur le même réseau Wi-Fi / LAN · Pot commun partagé · Difficulté ajustée au nombre de joueurs.</p>
+        </div>
+        <div class="upg-head-right">
+          <div class="mp-status-pill" id="mp-status">Connexion…</div>
+        </div>
+      </div>
+
+      <div class="mp-lan-box" id="mp-lan-box">
+        <div class="mp-lan-info">
+          <span class="mp-lan-label">📡 ADRESSE À PARTAGER SUR TON WI-FI / LAN :</span>
+          <div class="mp-lan-urls" id="mp-lan-urls">Détection de l'adresse IP locale…</div>
+        </div>
+        <button class="btn ghost" id="btn-mp-copy-url" type="button">📋 COPIER LE LIEN</button>
+      </div>
+
+      <div class="mp-setup-bar">
+        <div class="mp-name-wrap">
+          <label for="mp-name">TON PSEUDO</label>
+          <input id="mp-name" type="text" maxlength="16" placeholder="Gardien" autocomplete="off" />
+        </div>
+        <div class="mp-class-wrap">
+          <span class="mp-class-lbl">TA CLASSE DE GARDIEN</span>
+          <div class="class-cards mp-classes" id="mp-class-selector"></div>
+        </div>
+      </div>
+
+      <!-- Pre-room Browser -->
+      <div class="mp-grid" id="mp-browser">
+        <div class="mp-card">
+          <h2>🛡️ CRÉER UN SALON LAN</h2>
+          <p class="mp-card-desc">Tu héberges la partie sur ton PC. Jusqu'à 3 amis sur le même réseau peuvent te rejoindre.</p>
+          <div class="mp-field-lbl">DIFFICULTÉ DE LA SURVIE</div>
+          <div class="seg diff-tabs" id="mp-create-diff"></div>
+          <div class="mp-scaling-note">
+            ⚖️ <b>Équilibrage Co-op auto :</b> +42 % PV ennemis et +35 % effectifs par allié supplémentaire (+35 🪨 / +10 💎 de départ chacun).
+          </div>
+          <button class="btn mp-btn mp-big-btn" id="btn-mp-create" type="button">+ CRÉER UN SALON</button>
+        </div>
+
+        <div class="mp-card">
+          <div class="mp-card-head">
+            <h2>🔗 REJOINDRE UN SALON</h2>
+            <button class="btn ghost mp-mini-btn" id="btn-mp-refresh" type="button">↻ ACTUALISER</button>
+          </div>
+          <div class="mp-rooms-list" id="mp-rooms-list">
+            <div class="mp-empty">Aucun salon ouvert sur le réseau pour l'instant.</div>
+          </div>
+          <div class="mp-join-bar">
+            <input id="mp-join-code" type="text" maxlength="6" placeholder="CODE (ex: A7K2)" autocomplete="off" />
+            <button class="btn primary" id="btn-mp-join" type="button">REJOINDRE</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- In-Room Waiting Lobby -->
+      <div class="mp-lobby" id="mp-lobby" hidden>
+        <div class="mp-lobby-head">
+          <div>
+            <span class="mp-room-badge">SALON LAN : <b id="mp-room-code">----</b></span>
+            <span class="mp-scaling-inline" id="mp-scaling-info"></span>
+          </div>
+          <div class="mp-lobby-head-actions">
+            <button class="btn ghost mp-mini-btn" id="btn-mp-copy-code" type="button">📋 COPIER CODE</button>
+            <button class="btn ghost danger mp-mini-btn" id="btn-mp-leave" type="button">QUITTER LE SALON</button>
+          </div>
+        </div>
+
+        <div class="mp-lobby-diff-row">
+          <span class="mp-field-lbl">DIFFICULTÉ :</span>
+          <div class="seg diff-tabs" id="mp-lobby-diff"></div>
+        </div>
+
+        <div class="mp-roster" id="mp-roster"></div>
+
+        <div class="mp-lobby-foot">
+          <span class="mp-lobby-tip" id="mp-lobby-tip">Partage le lien LAN ci-dessus à tes amis sur le même Wi-Fi, puis lance la partie !</span>
+          <button class="btn mp-btn mp-launch-btn" id="btn-mp-start" type="button">▶ LANCER LA PARTIE CO-OP</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. BESTIARY -->
+  <section class="screen veil" id="s-bestiary">
+    <div class="col wide">
+      <div class="backrow">
+        <button class="btn ghost" data-nav="s-menu" type="button">◄ RETOUR</button>
+      </div>
+      <h1 class="t">BESTIAIRE DES ASSIÉGEANTS</h1>
+      <p class="lead">Étudie le rôle de chaque ennemi pour organiser efficacement tes remparts, tourelles et pièges.</p>
+      <h2 class="s">TROUPES &amp; ENGINS</h2>
+      <div class="beasts" id="bestiary-enemies"></div>
+      <h2 class="s">SEIGNEURS DE SIÈGE (BOSS)</h2>
+      <div class="beasts" id="bestiary-bosses"></div>
+    </div>
+  </section>
+
+  <!-- 6. ARCHIVES & ACHIEVEMENTS -->
+  <section class="screen veil" id="s-archives">
+    <div class="col wide">
+      <div class="backrow">
+        <button class="btn ghost" data-nav="s-menu" type="button">◄ RETOUR</button>
+      </div>
+      <h1 class="t">ARCHIVES &amp; SUCCÈS</h1>
+      <dl class="facts" id="arch-facts"></dl>
+      <h2 class="s">SUCCÈS (<span id="ach-count">0</span>)</h2>
+      <div class="achs" id="arch-achs"></div>
+    </div>
+  </section>
+
+  <!-- 7. SETTINGS -->
+  <section class="screen veil" id="s-settings">
+    <div class="col narrow">
+      <div class="backrow">
+        <button class="btn ghost" data-nav="s-menu" type="button">◄ RETOUR</button>
+      </div>
+      <h1 class="t">OPTIONS &amp; COMMANDES</h1>
+      <div class="set">
+        <div class="setrow">
+          <div><label for="opt-sfx">Effets sonores (SFX)</label><small>Bruitages rétro de construction, tirs et impacts</small></div>
+          <input id="opt-sfx" type="range" min="0" max="1" step="0.05" />
+        </div>
+        <div class="setrow">
+          <div><label for="opt-music">Musique dynamique</label><small>Harpe en préparation, marche de guerre en assaut</small></div>
+          <input id="opt-music" type="range" min="0" max="1" step="0.05" />
+        </div>
+        <div class="setrow">
+          <div><span class="lab">Thème Graphique</span><small>Textures HD 2D, Mode 3D (3e personne) ou Pixel-Art 16-bit rétro</small></div>
+          <button class="tog on" id="opt-theme" type="button">TEXTURES HD</button>
+        </div>
+        <div class="setrow">
+          <div><span class="lab">Trame CRT Pixel</span><small>Lignes rétro discrètes par-dessus le rendu</small></div>
+          <button class="tog" id="opt-crt" type="button">ACTIF</button>
+        </div>
+        <div class="setrow">
+          <div><span class="lab">Secousses d'impact</span><small>Tremblements lors des explosions et frappes de boss</small></div>
+          <button class="tog" id="opt-shake" type="button">ACTIF</button>
+        </div>
+        <div class="setrow">
+          <div><span class="lab">Tutoriel interactif</span><small>Affiche à nouveau le guide pas-à-pas lors de ta prochaine partie</small></div>
+          <button class="btn ghost" id="btn-replay-tuto" type="button">RÉACTIVER</button>
+        </div>
+        <div class="setrow">
+          <div><span class="lab">Sauvegarde locale</span><small>Efface toute la progression : Essences, Arbres Permanents, Aventure, héros, records, bestiaire et succès</small></div>
+          <button class="btn ghost danger" id="btn-reset-save" type="button">RÉINITIALISER</button>
+        </div>
+      </div>
+
+      <h2 class="s">COMMANDES</h2>
+      <div class="keys">
+        <kbd class="k">Z Q S D / Flèches</kbd><span>Déplacer le Gardien (récolte auto au contact des filons)</span>
+        <kbd class="k">Clic Gauche</kbd><span>Poser la structure choisie (glisser pour tracer un mur) ou inspecter</span>
+        <kbd class="k">Clic Droit</kbd><span>Quitter le mode construction / fermer l'inspecteur</span>
+        <kbd class="k">1 – 9, 0, -, =</kbd><span>Sélection rapide d'une structure sur la barre de construction</span>
+        <kbd class="k">F (maintenir)</kbd><span>Réparer directement les structures ou la Citadelle au contact</span>
+        <kbd class="k">Espace</kbd><span>Ruée tranchante (esquive + dégâts)</span>
+        <kbd class="k">E</kbd><span>Cri de Bastion (étourdit + accélère les tourelles proches)</span>
+        <kbd class="k">R</kbd><span>Jugement d'Éther (pluie d'éclairs arcaniques)</span>
+        <kbd class="k">U / Tab</kbd><span>Ouvrir le panneau d'Améliorations &amp; Technologies</span>
+        <kbd class="k">G</kbd><span>Lancer ou empiler la vague suivante (+bonus de risque)</span>
+        <kbd class="k">V</kbd><span>Activer / désactiver le mode Vague Auto</span>
+        <kbd class="k">P / T</kbd><span>Pause Tactique Constructible (caméra ZQSD + construction)</span>
+        <kbd class="k">H</kbd><span>Afficher / masquer la prévisualisation des chemins ennemis</span>
+        <kbd class="k">B</kbd><span>Amélioration en lot (glisser-déposer pour sélectionner)</span>
+        <kbd class="k">C / N (Molette)</kbd><span>Copier / Coller une zone · Pivoter le plan de 90°</span>
+        <kbd class="k">X</kbd><span>Mode Démolition multiple (glisser-déposer pour raser)</span>
+        <kbd class="k">Clic Droit glissé / Molette / K</kbd><span>Mode 3D : pivoter la caméra autour du Gardien, zoomer ou changer d'angle</span>
+        <kbd class="k">Échap</kbd><span>Annuler l'outil actif ou Ouvrir le menu de pause</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

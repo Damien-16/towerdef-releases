@@ -1,9 +1,16 @@
 {
   "version": "1.0.0",
-  "sha": "5dc82a144554bfa85a69d6bbbe463f07443c312c",
-  "shortSha": "5dc82a1",
-  "builtAt": "2026-11-25T07:54:58.787Z",
+  "sha": "f3f232227e367acaaac1d953813a1f1448c1b730",
+  "shortSha": "f3f2322",
+  "builtAt": "2026-11-25T08:11:22.364Z",
   "changelog": [
+    {
+      "sha": "f3f232227e367acaaac1d953813a1f1448c1b730",
+      "shortSha": "f3f2322",
+      "date": "2026-11-25",
+      "message": "fix: correction des 71 bugs de l'audit complet (gameplay, 3D, UI, LAN, launcher et exe)",
+      "isNew": false
+    },
     {
       "sha": "5dc82a144554bfa85a69d6bbbe463f07443c312c",
       "shortSha": "5dc82a1",
@@ -80,14 +87,7 @@
       "date": "2026-11-22",
       "message": "feat : ajout du multijoueur",
       "isNew": false
-    },
-    {
-      "sha": "ce45fa15f76aba8dbf13b15dd8c9f7b1154a5fcc",
-      "shortSha": "ce45fa1",
-      "date": "2026-11-21",
-      "message": "feat: refonte HD vectorielle complète (polices Cinzel/Inter, UI moderne et 50 sprites lisses)",
-      "isNew": false
     }
   ],
-  "gameHash": "9f10201bed00a95c1d51a8a15c3e2840468b48443b3f2ce2ef20b9821009c236"
+  "gameHash": "4f71da00e115dc70fae3aa023b536aabdccef70c6a645e06c23945b3ac3a7ee5"
 }
