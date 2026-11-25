@@ -1,9 +1,23 @@
 {
   "version": "1.0.0",
-  "sha": "f3f232227e367acaaac1d953813a1f1448c1b730",
-  "shortSha": "f3f2322",
-  "builtAt": "2026-11-25T08:11:22.364Z",
+  "sha": "009f630b1b8bc26a562cab8e98794ec89e9fe5bc",
+  "shortSha": "009f630",
+  "builtAt": "2026-11-25T09:31:57.158Z",
   "changelog": [
+    {
+      "sha": "009f630b1b8bc26a562cab8e98794ec89e9fe5bc",
+      "shortSha": "009f630",
+      "date": "2026-11-25",
+      "message": "feat: ajout du multijoueur Co-op En Ligne WebRTC (P2P + lien d'invitation)",
+      "isNew": false
+    },
+    {
+      "sha": "477f6bb40b8577dbdf8a30e65f5af02e7e2a2867",
+      "shortSha": "477f6bb",
+      "date": "2026-11-25",
+      "message": "fix: publication Web GitHub Pages, nettoyage antivirus de l'exe et exclusion watch Vite",
+      "isNew": false
+    },
     {
       "sha": "f3f232227e367acaaac1d953813a1f1448c1b730",
       "shortSha": "f3f2322",
@@ -73,21 +87,7 @@
       "date": "2026-11-22",
       "message": "Ajout dossier ai-discussions et hooks de sauvegarde/contexte IA automatique",
       "isNew": false
-    },
-    {
-      "sha": "3d45c5984e9f205c2701dad00a140ba7ebdcde21",
-      "shortSha": "3d45c59",
-      "date": "2026-11-22",
-      "message": "Ajout multijoueur co-op LAN (2-4 joueurs), launcher MAJ auto et exécutable Windows autonome",
-      "isNew": false
-    },
-    {
-      "sha": "d79cef73ca71a355d3d1f8288fe3dd45ca531ac8",
-      "shortSha": "d79cef7",
-      "date": "2026-11-22",
-      "message": "feat : ajout du multijoueur",
-      "isNew": false
     }
   ],
-  "gameHash": "4f71da00e115dc70fae3aa023b536aabdccef70c6a645e06c23945b3ac3a7ee5"
+  "gameHash": "798103e9fbaa20327db320898819775c62e87dfd7e4612a17b94a5174367506a"
 }
