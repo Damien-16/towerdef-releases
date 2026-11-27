@@ -1,9 +1,79 @@
 {
   "version": "1.0.0",
-  "sha": "ce5eb399e8dcc2e85640fcfbcf99bf5375cceba8",
-  "shortSha": "ce5eb39",
-  "builtAt": "2026-11-25T09:53:15.127Z",
+  "sha": "137f0e8d87bd4a8144a01276de6f88d034e97a32",
+  "shortSha": "137f0e8",
+  "builtAt": "2026-11-27T19:50:08.977Z",
   "changelog": [
+    {
+      "sha": "137f0e8d87bd4a8144a01276de6f88d034e97a32",
+      "shortSha": "137f0e8",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-06): finition tactile et mobile (HUD responsive, gestes 3D 2 doigts, maintien réparer)",
+      "isNew": false
+    },
+    {
+      "sha": "10556b9bc2c62604675b99a757dd052d57619906",
+      "shortSha": "10556b9",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-01): système de 5 biomes (2D HD, Pixel-Art, 3D WebGL, Aventure, Survie et Co-op)",
+      "isNew": false
+    },
+    {
+      "sha": "a7a423a1416faa5c7f57c7604332aa6553913245",
+      "shortSha": "a7a423a",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-04): pings tactiques (2D/3D/minimap) et mini-chat Co-op (WebRTC, LAN et EXE)",
+      "isNew": false
+    },
+    {
+      "sha": "ca83f2f3917346755cb19105bc7def403a6dc40e",
+      "shortSha": "ca83f2f",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-02): stats de fin de partie et répartition des dégâts/DPS par tourelle et joueur",
+      "isNew": false
+    },
+    {
+      "sha": "e6cdb9960c43dadffe06b5fcca04da34be4a38ba",
+      "shortSha": "e6cdb99",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-07): suite de tests automatisés Vitest (moteur, sauvegarde, aventure et réseau)",
+      "isNew": false
+    },
+    {
+      "sha": "2d04f489a2977e93c9f1922657f5e279b7f34c2d",
+      "shortSha": "2d04f48",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-05): export et import de sauvegarde (.json et presse-papiers)",
+      "isNew": false
+    },
+    {
+      "sha": "23ee6c43a0d9384f2caa249d2e10bdf354e26849",
+      "shortSha": "23ee6c4",
+      "date": "2026-11-27",
+      "message": "feat(FEAT-03): accès aux Options & Commandes depuis le menu pause en partie",
+      "isNew": false
+    },
+    {
+      "sha": "7ffd9eff8cb9b43a5d38faac79329c3a801123d8",
+      "shortSha": "7ffd9ef",
+      "date": "2026-11-27",
+      "message": "docs: feuille de route détaillée des 7 prochaines tâches IA (ROADMAP.md)",
+      "isNew": false
+    },
+    {
+      "sha": "b3fcb78b3a0113506b07dc7a183a0fd36ca83cec",
+      "shortSha": "b3fcb78",
+      "date": "2026-11-25",
+      "message": "fix: vérification d'identité et bascule auto de port dans le launcher et l'exe",
+      "isNew": false
+    },
+    {
+      "sha": "61366cc4b1fc24a0cbebfb7b948c9fe104d0f904",
+      "shortSha": "61366cc",
+      "date": "2026-11-25",
+      "message": "chore: mise à jour des artefacts de release (correctif WebRTC chunking)",
+      "isNew": false
+    },
     {
       "sha": "ce5eb399e8dcc2e85640fcfbcf99bf5375cceba8",
       "shortSha": "ce5eb39",
@@ -17,77 +87,7 @@
       "date": "2026-11-25",
       "message": "chore: mise à jour des artefacts de release (Web, BastionDEther.exe, game.zip)",
       "isNew": false
-    },
-    {
-      "sha": "009f630b1b8bc26a562cab8e98794ec89e9fe5bc",
-      "shortSha": "009f630",
-      "date": "2026-11-25",
-      "message": "feat: ajout du multijoueur Co-op En Ligne WebRTC (P2P + lien d'invitation)",
-      "isNew": false
-    },
-    {
-      "sha": "477f6bb40b8577dbdf8a30e65f5af02e7e2a2867",
-      "shortSha": "477f6bb",
-      "date": "2026-11-25",
-      "message": "fix: publication Web GitHub Pages, nettoyage antivirus de l'exe et exclusion watch Vite",
-      "isNew": false
-    },
-    {
-      "sha": "f3f232227e367acaaac1d953813a1f1448c1b730",
-      "shortSha": "f3f2322",
-      "date": "2026-11-25",
-      "message": "fix: correction des 71 bugs de l'audit complet (gameplay, 3D, UI, LAN, launcher et exe)",
-      "isNew": false
-    },
-    {
-      "sha": "5dc82a144554bfa85a69d6bbbe463f07443c312c",
-      "shortSha": "5dc82a1",
-      "date": "2026-11-24",
-      "message": "docs: ajout de l'audit complet des 71 bugs (BUGS_AUDIT.md) et mise à jour du contexte IA",
-      "isNew": false
-    },
-    {
-      "sha": "e037d611b958247538979e3479efb61f1e3a47b6",
-      "shortSha": "e037d61",
-      "date": "2026-11-24",
-      "message": "Mise à jour des artefacts de release (BastionDEther.exe, game.zip, version.json)",
-      "isNew": false
-    },
-    {
-      "sha": "25eeb487f94eadf297df8447b6b166e72100a6e6",
-      "shortSha": "25eeb48",
-      "date": "2026-11-23",
-      "message": "Refonte épurée du launcher (sans emoji) et recompilation de BastionDEther.exe",
-      "isNew": false
-    },
-    {
-      "sha": "ebc35b789ddb684837fcc9583ff885b1d929415b",
-      "shortSha": "ebc35b7",
-      "date": "2026-11-23",
-      "message": "feat: dépôt public séparé pour les releases auto-updater (towerdef-releases)",
-      "isNew": false
-    },
-    {
-      "sha": "6800deb18873e7228e7df8e8bcf72e694b99e2c1",
-      "shortSha": "6800deb",
-      "date": "2026-11-23",
-      "message": "feat: ajout du mode 3D Three.js (caméra 3e personne et style semi-pixel)",
-      "isNew": false
-    },
-    {
-      "sha": "ede056589ad3b09c7a3c9ad563a8b8b738377772",
-      "shortSha": "ede0565",
-      "date": "2026-11-23",
-      "message": "chore: filtrage des échanges utiles et sync ai-discussions avant commit",
-      "isNew": false
-    },
-    {
-      "sha": "6672638571f7406db0863d637805f2d383d76b66",
-      "shortSha": "6672638",
-      "date": "2026-11-23",
-      "message": "docs: rédaction complète du README",
-      "isNew": false
     }
   ],
-  "gameHash": "72d00e667e50d4fdf6e8f05b06af1e07afb48934524846efaeaffc9d9c5c1c43"
+  "gameHash": "3efa616aa0614d51e1491dff22faa2740dbcea9e5acbb0e79054be3ceda0a24e"
 }

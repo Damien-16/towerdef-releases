@@ -2,13 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <title>BASTION D'ÉTHER — Survie &amp; Défense de Forteresse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-DxK2i5dy.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-O1n2whrG.css">
+  <script type="module" crossorigin src="./assets/index-isqjc0Uf.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BgWACSrB.css">
 </head>
 <body>
   <div id="stage">
@@ -53,11 +53,28 @@
       <div id="coop-hud" hidden></div>
     </div>
 
+    <!-- Bottom Left: In-Game Co-op Mini-Chat & Quick Pings -->
+    <div id="coop-chat" hidden>
+      <div class="chat-log" id="coop-chat-log"></div>
+      <div class="chat-quick">
+        <button type="button" data-qchat="Aide !">Aide !</button>
+        <button type="button" data-qchat="Prêt">Prêt</button>
+        <button type="button" data-qchat="Garde les 💎">Garde les 💎</button>
+        <button type="button" data-qchat="Boss !">Boss !</button>
+        <button type="button" class="chat-ping-btn" id="btn-hud-ping" title="Envoyer un ping tactique (Alt+Clic ou Y)">📍 PING</button>
+      </div>
+      <form class="chat-form" id="coop-chat-form" autocomplete="off">
+        <input id="coop-chat-input" type="text" maxlength="120" placeholder="[Entrée] Message aux alliés…" />
+        <button type="submit">ENV.</button>
+      </form>
+    </div>
+
     <!-- Top Center: Wave Status & Boss Bar -->
     <div class="hud-tc">
       <div class="wave-box">
         <div class="wave-top">
           <span class="diff-badge" id="hud-diff">NORMAL</span>
+          <span class="biome-badge" id="hud-biome" hidden>🌿 PRAIRIE</span>
           <div class="wave-title" id="hud-wave-title">VAGUE 1 — PRÉPARATION</div>
         </div>
         <div class="wave-sub" id="hud-wave-sub">Flancs : NORD</div>
@@ -236,6 +253,11 @@
         <div class="seg diff-tabs" id="diff-selector"></div>
         <div class="diff-desc" id="diff-desc"></div>
       </div>
+      <div class="diff-wrap">
+        <div class="diff-label">BIOME (SURVIE)</div>
+        <div class="seg diff-tabs biome-tabs" id="biome-selector"></div>
+        <div class="diff-desc" id="biome-desc"></div>
+      </div>
       <div class="go">
         <button class="btn primary" id="btn-continue" type="button" hidden>REPRENDRE LA PARTIE</button>
         <button class="btn adv-btn" id="btn-menu-adv" data-nav="s-adventure" type="button">🗺️ MODE AVENTURE (<span id="menu-adv-prog">1/100</span>)</button>
@@ -288,6 +310,7 @@
       <div class="actions-col">
         <button class="btn primary" id="btn-resume" type="button">REPRENDRE</button>
         <button class="btn ghost" id="btn-pause-upg" type="button">AMÉLIORATIONS [U]</button>
+        <button class="btn ghost" id="btn-pause-settings" type="button">⚙ OPTIONS &amp; COMMANDES</button>
         <button class="btn ghost" id="btn-save-quit" type="button">SAUVEGARDER &amp; QUITTER</button>
         <button class="btn ghost danger" id="btn-abandon" type="button">ABANDONNER LA PARTIE</button>
       </div>
@@ -296,10 +319,11 @@
 
   <!-- 4. BATTLE OVER MODAL -->
   <section class="screen veil" id="s-over">
-    <div class="col narrow">
+    <div class="col narrow report-col">
       <h1 class="t">CITADELLE TOMBÉE</h1>
       <p class="lead" id="over-sub">Les forces de siège ont submergé ta forteresse.</p>
       <dl class="facts" id="over-facts"></dl>
+      <div class="dmg-report" id="over-dmg-report" hidden></div>
       <div class="actions-row">
         <button class="btn primary" id="btn-retry" type="button">NOUVELLE BATAILLE</button>
         <button class="btn adv-btn" id="btn-over-adv" type="button" hidden>🗺️ RETOUR AVENTURE</button>
@@ -311,11 +335,12 @@
 
   <!-- 4A. ADVENTURE VICTORY MODAL -->
   <section class="screen veil" id="s-victory">
-    <div class="col narrow">
+    <div class="col narrow report-col">
       <h1 class="t" style="color:#5ef28c">VICTOIRE !</h1>
       <div class="vic-stars" id="vic-stars"></div>
       <p class="lead" id="vic-sub">Niveau terminé avec succès !</p>
       <dl class="facts" id="vic-facts"></dl>
+      <div class="dmg-report" id="vic-dmg-report" hidden></div>
       <div class="adv-unlocks-box" id="vic-unlocks" hidden></div>
       <div class="actions-row">
         <button class="btn adv-btn" id="btn-vic-next" type="button">NIVEAU SUIVANT ►</button>
@@ -515,6 +540,8 @@
           <p class="mp-card-desc" id="mp-create-desc">Tu héberges la partie. Jusqu'à 3 amis peuvent te rejoindre avec le code ou le lien d'invitation.</p>
           <div class="mp-field-lbl">DIFFICULTÉ DE LA SURVIE</div>
           <div class="seg diff-tabs" id="mp-create-diff"></div>
+          <div class="mp-field-lbl" style="margin-top:10px">BIOME DU CHAMP DE BATAILLE</div>
+          <div class="seg diff-tabs biome-tabs" id="mp-create-biome"></div>
           <div class="mp-scaling-note">
             ⚖️ <b>Équilibrage Co-op auto :</b> +42 % PV ennemis et +35 % effectifs par allié supplémentaire (+35 🪨 / +10 💎 de départ chacun).
           </div>
@@ -553,8 +580,27 @@
           <span class="mp-field-lbl">DIFFICULTÉ :</span>
           <div class="seg diff-tabs" id="mp-lobby-diff"></div>
         </div>
+        <div class="mp-lobby-diff-row">
+          <span class="mp-field-lbl">BIOME :</span>
+          <div class="seg diff-tabs biome-tabs" id="mp-lobby-biome"></div>
+        </div>
 
         <div class="mp-roster" id="mp-roster"></div>
+
+        <div class="mp-lobby-chat" id="mp-lobby-chat">
+          <div class="mp-field-lbl">💬 CHAT DU SALON</div>
+          <div class="chat-log" id="mp-lobby-chat-log"></div>
+          <div class="chat-quick">
+            <button type="button" data-qchat="Prêt">Prêt</button>
+            <button type="button" data-qchat="Aide !">Aide !</button>
+            <button type="button" data-qchat="Garde les 💎">Garde les 💎</button>
+            <button type="button" data-qchat="Boss !">Boss !</button>
+          </div>
+          <form class="chat-form" id="mp-lobby-chat-form" autocomplete="off">
+            <input id="mp-lobby-chat-input" type="text" maxlength="120" placeholder="Écris un message au salon…" />
+            <button type="submit">ENVOYER</button>
+          </form>
+        </div>
 
         <div class="mp-lobby-foot">
           <span class="mp-lobby-tip" id="mp-lobby-tip">Partage le code ou le lien ci-dessus à tes amis, puis lance la partie !</span>
@@ -596,7 +642,7 @@
   <section class="screen veil" id="s-settings">
     <div class="col narrow">
       <div class="backrow">
-        <button class="btn ghost" data-nav="s-menu" type="button">◄ RETOUR</button>
+        <button class="btn ghost" id="btn-settings-back" type="button">◄ RETOUR</button>
       </div>
       <h1 class="t">OPTIONS &amp; COMMANDES</h1>
       <div class="set">
@@ -624,8 +670,27 @@
           <div><span class="lab">Tutoriel interactif</span><small>Affiche à nouveau le guide pas-à-pas lors de ta prochaine partie</small></div>
           <button class="btn ghost" id="btn-replay-tuto" type="button">RÉACTIVER</button>
         </div>
+        <div class="setrow setrow-col">
+          <div class="setrow-top">
+            <div><span class="lab">Transférer / Sauvegarder (Export / Import)</span><small id="opt-transfer-note">Exporte ta progression en fichier .json ou importe une sauvegarde depuis un autre appareil</small></div>
+            <div class="save-io-btns">
+              <button class="btn ghost" id="btn-export-save" type="button">⬇ EXPORTER (.JSON)</button>
+              <button class="btn ghost" id="btn-copy-save" type="button">📋 COPIER</button>
+              <button class="btn ghost" id="btn-import-save" type="button">⬆ IMPORTER (.JSON)</button>
+              <button class="btn ghost" id="btn-paste-save-toggle" type="button">📝 COLLER JSON</button>
+              <input id="input-import-save" type="file" accept=".json,application/json" hidden />
+            </div>
+          </div>
+          <div class="save-paste-box" id="save-paste-box" hidden>
+            <textarea id="save-paste-input" rows="4" placeholder="Colle ici le texte JSON d'une sauvegarde Bastion d'Éther…"></textarea>
+            <div class="save-paste-actions">
+              <button class="btn primary" id="btn-paste-save-apply" type="button">VALIDER L'IMPORT</button>
+              <button class="btn ghost" id="btn-paste-save-cancel" type="button">ANNULER</button>
+            </div>
+          </div>
+        </div>
         <div class="setrow">
-          <div><span class="lab">Sauvegarde locale</span><small>Efface toute la progression : Essences, Arbres Permanents, Aventure, héros, records, bestiaire et succès</small></div>
+          <div><span class="lab">Sauvegarde locale</span><small id="opt-reset-note">Efface toute la progression : Essences, Arbres Permanents, Aventure, héros, records, bestiaire et succès</small></div>
           <button class="btn ghost danger" id="btn-reset-save" type="button">RÉINITIALISER</button>
         </div>
       </div>
@@ -649,6 +714,8 @@
         <kbd class="k">C / N (Molette)</kbd><span>Copier / Coller une zone · Pivoter le plan de 90°</span>
         <kbd class="k">X</kbd><span>Mode Démolition multiple (glisser-déposer pour raser)</span>
         <kbd class="k">Clic Droit glissé / Molette / K</kbd><span>Mode 3D : pivoter la caméra autour du Gardien, zoomer ou changer d'angle</span>
+        <kbd class="k">Alt + Clic / Y</kbd><span>Co-op : placer un ping tactique visible sur la carte, en 3D et sur la minimap</span>
+        <kbd class="k">Entrée</kbd><span>Co-op : ouvrir / envoyer un message dans le mini-chat d'équipe</span>
         <kbd class="k">Échap</kbd><span>Annuler l'outil actif ou Ouvrir le menu de pause</span>
       </div>
     </div>
