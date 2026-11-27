@@ -1,9 +1,23 @@
 {
   "version": "1.0.0",
-  "sha": "137f0e8d87bd4a8144a01276de6f88d034e97a32",
-  "shortSha": "137f0e8",
-  "builtAt": "2026-11-27T19:50:08.977Z",
+  "sha": "feef32e88504eafe37c276f107b0112f07935fcf",
+  "shortSha": "feef32e",
+  "builtAt": "2026-11-27T21:07:35.505Z",
   "changelog": [
+    {
+      "sha": "feef32e88504eafe37c276f107b0112f07935fcf",
+      "shortSha": "feef32e",
+      "date": "2026-11-27",
+      "message": "feat: expansion dynamique de la carte en Survie Infinie, Reliques Anciennes et zoom 2D/3D",
+      "isNew": false
+    },
+    {
+      "sha": "86fbe71e3b9a3c0b3920f8009fdb114b7de8a536",
+      "shortSha": "86fbe71",
+      "date": "2026-11-27",
+      "message": "chore: mise à jour des artefacts de release (FEAT-01 à FEAT-07)",
+      "isNew": false
+    },
     {
       "sha": "137f0e8d87bd4a8144a01276de6f88d034e97a32",
       "shortSha": "137f0e8",
@@ -73,21 +87,7 @@
       "date": "2026-11-25",
       "message": "chore: mise à jour des artefacts de release (correctif WebRTC chunking)",
       "isNew": false
-    },
-    {
-      "sha": "ce5eb399e8dcc2e85640fcfbcf99bf5375cceba8",
-      "shortSha": "ce5eb39",
-      "date": "2026-11-25",
-      "message": "fix: découpage (chunking) WebRTC illimité et reconnexion auto (corrige le crash vague 2 client)",
-      "isNew": false
-    },
-    {
-      "sha": "10a65b6a4972833b2f95545672d69d28bbc5d733",
-      "shortSha": "10a65b6",
-      "date": "2026-11-25",
-      "message": "chore: mise à jour des artefacts de release (Web, BastionDEther.exe, game.zip)",
-      "isNew": false
     }
   ],
-  "gameHash": "3efa616aa0614d51e1491dff22faa2740dbcea9e5acbb0e79054be3ceda0a24e"
+  "gameHash": "3cb12adc5c82eef59fe167eb3ea5d967c66ae49b3f01420c4040bf11c888dca7"
 }

@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-isqjc0Uf.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BgWACSrB.css">
+  <script type="module" crossorigin src="./assets/index-BQ01EQLy.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DKy_ctuT.css">
 </head>
 <body>
   <div id="stage">
@@ -90,9 +90,10 @@
       </div>
     </div>
 
-    <!-- Top Right: Upgrades, Controls & Minimap -->
+    <!-- Top Right: Upgrades, Territory, Controls & Minimap -->
     <div class="hud-tr">
       <div class="tr-actions">
+        <button class="btn-hud terr" id="btn-territory" type="button" hidden title="Agrandir la carte et consulter les Reliques (M)">🗺 TERRITOIRE [M]</button>
         <button class="btn-hud upg" id="btn-upgrades" type="button">AMÉLIORER [U]</button>
         <button class="btn-hud" id="btn-pause" type="button" title="Menu &amp; Options (Échap)">☰</button>
       </div>
@@ -258,6 +259,11 @@
         <div class="seg diff-tabs biome-tabs" id="biome-selector"></div>
         <div class="diff-desc" id="biome-desc"></div>
       </div>
+      <div class="diff-wrap">
+        <div class="diff-label">TAILLE INITIALE DE CARTE (SURVIE INFINIE)</div>
+        <div class="seg diff-tabs mapsize-tabs" id="mapsize-selector"></div>
+        <div class="diff-desc" id="mapsize-desc"></div>
+      </div>
       <div class="go">
         <button class="btn primary" id="btn-continue" type="button" hidden>REPRENDRE LA PARTIE</button>
         <button class="btn adv-btn" id="btn-menu-adv" data-nav="s-adventure" type="button">🗺️ MODE AVENTURE (<span id="menu-adv-prog">1/100</span>)</button>
@@ -302,6 +308,39 @@
     </div>
   </section>
 
+  <!-- 2B. TERRITORY EXPANSION MODAL (SURVIVAL INFINITE) -->
+  <section class="screen veil" id="s-territory">
+    <div class="col wide">
+      <div class="headrow">
+        <div>
+          <h1 class="t">EXPANSION DU TERRITOIRE</h1>
+          <p class="lead">Repousse la Brume d’Éther pour agrandir la carte (jusqu’à 106×78), révéler des filons riches et capturer des Reliques Anciennes !</p>
+        </div>
+        <div class="upg-head-right">
+          <div class="purse">🪨 <b id="terr-stone">0</b> · 💎 <b id="terr-crystal">0</b> · 🗺 <b id="terr-tokens">0</b> Jeton(s)</div>
+          <button class="btn primary" id="btn-terr-close" type="button">RETOUR [M]</button>
+        </div>
+      </div>
+
+      <div class="terr-compass" id="terr-compass">
+        <div class="terr-slot terr-n" id="terr-card-N"></div>
+        <div class="terr-slot terr-w" id="terr-card-W"></div>
+        <div class="terr-center" id="terr-center"></div>
+        <div class="terr-slot terr-e" id="terr-card-E"></div>
+        <div class="terr-slot terr-s" id="terr-card-S"></div>
+      </div>
+
+      <div class="terr-relics-box">
+        <div class="terr-relics-head">
+          <h2>✦ RELIQUES ANCIENNES DÉCOUVERTES</h2>
+          <span class="terr-relics-tip">Approche-toi d’une Relique avec ton Gardien (1,4 s) pour activer son bonus permanent !</span>
+        </div>
+        <div class="terr-relics-bonuses" id="terr-relics-bonuses"></div>
+        <div class="terr-relics-list" id="terr-relics-list"></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 3. PAUSE MODAL -->
   <section class="screen dim" id="s-pause">
     <div class="col narrow">
@@ -309,6 +348,7 @@
       <p class="lead" id="pause-info"></p>
       <div class="actions-col">
         <button class="btn primary" id="btn-resume" type="button">REPRENDRE</button>
+        <button class="btn ghost" id="btn-pause-terr" type="button" hidden>🗺 TERRITOIRE &amp; EXPANSION [M]</button>
         <button class="btn ghost" id="btn-pause-upg" type="button">AMÉLIORATIONS [U]</button>
         <button class="btn ghost" id="btn-pause-settings" type="button">⚙ OPTIONS &amp; COMMANDES</button>
         <button class="btn ghost" id="btn-save-quit" type="button">SAUVEGARDER &amp; QUITTER</button>
@@ -542,6 +582,8 @@
           <div class="seg diff-tabs" id="mp-create-diff"></div>
           <div class="mp-field-lbl" style="margin-top:10px">BIOME DU CHAMP DE BATAILLE</div>
           <div class="seg diff-tabs biome-tabs" id="mp-create-biome"></div>
+          <div class="mp-field-lbl" style="margin-top:10px">TAILLE INITIALE DE CARTE</div>
+          <div class="seg diff-tabs mapsize-tabs" id="mp-create-mapsize"></div>
           <div class="mp-scaling-note">
             ⚖️ <b>Équilibrage Co-op auto :</b> +42 % PV ennemis et +35 % effectifs par allié supplémentaire (+35 🪨 / +10 💎 de départ chacun).
           </div>
@@ -583,6 +625,10 @@
         <div class="mp-lobby-diff-row">
           <span class="mp-field-lbl">BIOME :</span>
           <div class="seg diff-tabs biome-tabs" id="mp-lobby-biome"></div>
+        </div>
+        <div class="mp-lobby-diff-row">
+          <span class="mp-field-lbl">TAILLE CARTE :</span>
+          <div class="seg diff-tabs mapsize-tabs" id="mp-lobby-mapsize"></div>
         </div>
 
         <div class="mp-roster" id="mp-roster"></div>
@@ -706,6 +752,8 @@
         <kbd class="k">E</kbd><span>Cri de Bastion (étourdit + accélère les tourelles proches)</span>
         <kbd class="k">R</kbd><span>Jugement d'Éther (pluie d'éclairs arcaniques)</span>
         <kbd class="k">U / Tab</kbd><span>Ouvrir le panneau d'Améliorations &amp; Technologies</span>
+        <kbd class="k">M</kbd><span>Survie Infinie : ouvrir l'Expansion du Territoire (agrandir la carte &amp; Reliques)</span>
+        <kbd class="k">Molette</kbd><span>Zoomer / dézoomer la caméra en 2D et en Mode 3D (ou pivoter un plan)</span>
         <kbd class="k">G</kbd><span>Lancer ou empiler la vague suivante (+bonus de risque)</span>
         <kbd class="k">V</kbd><span>Activer / désactiver le mode Vague Auto</span>
         <kbd class="k">P / T</kbd><span>Pause Tactique Constructible (caméra ZQSD + construction)</span>
